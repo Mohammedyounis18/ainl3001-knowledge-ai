@@ -167,3 +167,54 @@ TASK 2 QUESTIONS
    so the computer has more states to generate and check.
 """
 
+# --------------------------------------------------
+# TASK 3 — HILL CLIMBING
+# --------------------------------------------------
+
+def hill_climbing(problem, start_board):
+    """
+    Use Hill Climbing to reduce the number
+    of conflicts.
+
+    Algorithm:
+
+        current = start state
+
+        repeat:
+
+            generate neighbours
+
+            find the neighbour with the
+            lowest conflict count
+
+            if the neighbour is not better:
+                stop
+
+            otherwise:
+                move to the neighbour
+
+        return current
+    """
+
+    current = start_board  # begin with the starting board
+
+    # TODO
+
+    while True:  # keep improving until no better neighbour exists
+
+        current_cost = count_conflicts(current)  # cost of the current board
+
+        if current_cost == 0:  # 0 conflicts means we found a solution
+            return current
+
+        neighbours = generate_neighbours(problem, current)  # generate nearby boards
+
+        best_neighbour = min(neighbours, key=count_conflicts)  # board with lowest cost
+
+        best_cost = count_conflicts(best_neighbour)  # cost of the best neighbour
+
+        if best_cost >= current_cost:  # if no neighbour is better
+            return current  # stop at the current board
+
+        current = best_neighbour  # move to the better board
+
