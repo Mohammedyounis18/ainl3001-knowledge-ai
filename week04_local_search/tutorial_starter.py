@@ -57,7 +57,22 @@ class GridProblem(Problem):
         # 4. Add valid actions to the list.
         # 5. Return the list.
 
-        pass
+        x, y = state  # get the x and y coordinates
+        actions = []  # store the valid moves
+
+        if y > 0:  # if we are not at the top edge
+            actions.append("UP")  # allow UP
+
+        if y < GRID_SIZE - 1:  # if we are not at the bottom edge
+            actions.append("DOWN")  # allow DOWN
+
+        if x > 0:  # if we are not at the left edge
+            actions.append("LEFT")  # allow LEFT
+
+        if x < GRID_SIZE - 1:  # if we are not at the right edge
+            actions.append("RIGHT")  # allow RIGHT
+
+        return actions  # return all valid actions
 
     def result(self, state, action):
         """
@@ -77,7 +92,21 @@ class GridProblem(Problem):
         # 2. Check which action was requested.
         # 3. Return the resulting state.
 
-        pass
+        x, y = state  # get the current coordinates
+
+        if action == "UP":  # moving up decreases y
+            return (x, y - 1)
+
+        if action == "DOWN":  # moving down increases y
+            return (x, y + 1)
+
+        if action == "LEFT":  # moving left decreases x
+            return (x - 1, y)
+
+        if action == "RIGHT":  # moving right increases x
+            return (x + 1, y)
+
+        raise ValueError(f"Unknown action: {action}")  # catch invalid actions
 
 
 # --------------------------------------------------
@@ -138,7 +167,17 @@ Be ready to discuss:
 
 1. What information is stored in problem.initial?
 
+ANSWER:
+The starting state.
+Here it is (0, 0).
+
+
 2. What information is stored in problem.goal?
+
+ANSWER:
+The state we want to reach.
+Here it is (4, 4).
+
 
 3. What is the difference between:
 
@@ -148,10 +187,33 @@ Be ready to discuss:
 
        problem.result(state, action)
 
+ANSWER:
+actions(state) tells us what moves are allowed.
+result(state, action) tells us where one move takes us.
+
+Simple:
+actions = "What can I do?"
+result = "Where do I end up?"
+
+
 4. Why doesn't Problem know anything about grids?
+
+ANSWER:
+Because Problem is a general class.
+It can be reused for different problems, not only grids.
+
 
 5. Why doesn't GridProblem know anything about search?
 
+ANSWER:
+GridProblem only describes the grid and its valid moves.
+A separate search algorithm decides how to search it.
+
+
 6. Could the same Problem structure be used for something
    other than a grid?
+
+ANSWER:
+Yes.
+For example N-Queens, puzzles, games, or route problems.
 """
