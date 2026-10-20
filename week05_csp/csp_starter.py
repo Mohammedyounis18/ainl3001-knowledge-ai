@@ -1,3 +1,4 @@
+
 """
 AINL3001 — Knowledge-Driven AI
 Week 5 — Constraint Satisfaction Problems
@@ -237,3 +238,20 @@ if __name__ == "__main__":
     print("2. Why can backtracking be faster than brute force?")
     print("3. Why might MRV reduce search?")
     print("4. How could this model represent timetabling?")
+
+
+"""
+TASK 5 ANSWERS
+
+1. MRV selects the most restricted variable, which may expose failures sooner.
+2. If a region has no legal colours, this search branch cannot work.
+3. No. MRV can help, but it also costs time to check legal values.
+
+REFLECTION ANSWERS
+
+1. Backtracking happens when a colour breaks a constraint or no solution follows.
+2. It rejects partial assignments without trying all 729 complete colourings.
+3. MRV tries the region with the fewest choices, so it can detect failure early.
+4. Lectures could be variables, rooms/times could be domains,
+   and rules could prevent room or lecturer clashes.
+"""
