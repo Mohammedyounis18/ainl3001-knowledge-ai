@@ -46,7 +46,20 @@ WINNING_LINES = [
     (0, 4, 8), (2, 4, 6),
 ]
 
+"""
+TASK 0 ANSWERS
 
+Left MIN = min(3, 5) = 3
+Right MIN = min(2, 9) = 2
+
+MAX chooses the left branch because 3 > 2.
+
+MIN picks the smallest value because it wants
+the worst outcome for MAX.
+
+MAX picks the largest value because it wants
+the best possible outcome.
+"""
 # --------------------------------------------------
 # TASK 1 — BOARD REPRESENTATION
 # --------------------------------------------------
@@ -54,7 +67,11 @@ WINNING_LINES = [
 def print_board(state):
     """Display the nine cells as a 3-by-3 board."""
     # TODO: Print three rows of three cells.
-    pass
+    for i in range(0, 9, 3):  # go through the board 3 cells at a time
+        print(" | ".join(state[i:i + 3]))  # print one row
+
+    if i < 6:  # don't print a line after the last row
+        print("---+---+---")
 
 
 # --------------------------------------------------
@@ -64,7 +81,7 @@ def print_board(state):
 def available_moves(state):
     """Return indices of empty cells (0 through 8)."""
     # TODO: Find every position containing " ".
-    pass
+    return [i for i in range(9) if state[i] == " "]  # find empty cells
 
 
 # --------------------------------------------------
@@ -77,7 +94,9 @@ def make_move(state, move, player):
     Assume move is legal. Do not modify the input board.
     """
     # TODO: Copy the board and place the player's mark.
-    pass
+    new_state = state.copy()  # copy the original board
+    new_state[move] = player  # place X or O
+    return new_state  # return the new board
 
 
 # --------------------------------------------------
