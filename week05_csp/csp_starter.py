@@ -121,7 +121,29 @@ def select_unassigned_variable(assignment):
     # For each unassigned variable, temporarily try each colour,
     # check is_valid_assignment(), and undo the temporary assignment.
     # Count legal colours and choose the variable with the fewest.
-    pass
+
+    unassigned = [var for var in variables if var not in assignment]  # remaining regions
+
+    if not unassigned:  # every region has a colour
+        return None
+
+    best_variable = None  # selected region
+    fewest_colours = float("inf")  # start with a very large number
+
+    for variable in unassigned:  # check each unassigned region
+        legal_colours = 0  # count currently allowed colours
+
+        for colour in domains[variable]:  # temporarily try each colour
+            assignment[variable] = colour  # assign colour
+            if is_valid_assignment(assignment):  # colour does not break a rule
+                legal_colours += 1  # count valid colour
+            del assignment[variable]  # undo the trial
+
+        if legal_colours < fewest_colours:  # fewest options so far
+            fewest_colours = legal_colours  # remember the count
+            best_variable = variable  # remember the region
+
+    return best_variable  # MRV: fewest legal colours, first if tied
 
 
 # --------------------------------------------------
@@ -138,7 +160,24 @@ def backtracking_search(assignment):
     # 5. Return the recursive result if a solution was found.
     # 6. Otherwise remove the temporary assignment (backtrack).
     # 7. Return None if every colour fails.
-    pass
+
+    if len(assignment) == len(variables):  # all regions assigned
+        return assignment.copy() if is_valid_assignment(assignment) else None
+
+    variable = select_unassigned_variable(assignment)  # choose the next region
+
+    for colour in domains[variable]:  # try each possible colour
+        assignment[variable] = colour  # temporarily colour this region
+
+        if is_valid_assignment(assignment):  # only continue if valid
+            result = backtracking_search(assignment)  # solve remaining regions
+            if result is not None:  # complete solution found
+                del assignment[variable]  # undo temporary change
+                return result  # return the solution
+
+        del assignment[variable]  # backtrack and try another colour
+
+    return None  # no colour worked
 
 
 # --------------------------------------------------
