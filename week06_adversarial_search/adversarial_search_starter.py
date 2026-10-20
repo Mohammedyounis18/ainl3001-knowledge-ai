@@ -207,7 +207,23 @@ def best_move(state, counter):
     # TODO: Try each legal X move, call minimax() for O's turn,
     # and return the move with the highest score.
     # If the board is terminal, return None.
-    pass
+    if is_terminal(state):  # game already finished
+        return None
+
+    best_score = -float("inf")  # lowest starting score
+    chosen_move = None  # no move chosen yet
+
+    for move in available_moves(state):  # check each empty cell
+
+        next_state = make_move(state, move, "X")  # try placing X
+
+        score = minimax(next_state, False, counter)  # O plays next
+
+        if score > best_score:  # if this is the best move so far
+            best_score = score  # save the score
+            chosen_move = move  # save the position
+
+    return chosen_move  # return the best move
 
 
 # --------------------------------------------------
