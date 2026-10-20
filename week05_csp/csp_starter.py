@@ -38,6 +38,15 @@ print("2. Which neighbouring pairs violate a constraint?")
 print("3. How could you correct the assignment?")
 print("4. Why is it useful to detect violations early?")
 
+"""
+TASK 0 ANSWERS
+
+1. No. Some neighbouring regions have the same colour.
+2. WA and NT are both Red; SA and V are both Green.
+3. Change WA to Blue and V to Blue. All neighbours then differ.
+4. Rejecting bad choices early saves checking more invalid assignments.
+"""
+
 # --------------------------------------------------
 # TASK 1 — CSP REPRESENTATION
 # --------------------------------------------------
@@ -64,6 +73,15 @@ constraints = [
     ("NSW", "V"),
 ]
 
+"""
+TASK 1 ANSWERS
+
+1. A list stores the regions in a fixed order.
+2. A dictionary links each region to its possible colours.
+3. ("WA", "NT") means these neighbours must have different colours.
+4. Add the region to variables, give it a domain, and add its neighbour pairs.
+"""
+
 # --------------------------------------------------
 # TASK 2 — CONSTRAINT CHECKING
 # --------------------------------------------------
@@ -75,7 +93,11 @@ def is_valid_assignment(assignment):
     # 2. If BOTH regions have been assigned, compare their colours.
     # 3. Return False if neighbouring regions have the same colour.
     # 4. Otherwise return True.
-    pass
+    for first, second in constraints:  # check each neighbouring pair
+        if first in assignment and second in assignment:  # both have colours
+            if assignment[first] == assignment[second]:  # same colour is invalid
+                return False  # at least one rule is broken
+    return True  # no rule was broken
 
 
 # --------------------------------------------------
