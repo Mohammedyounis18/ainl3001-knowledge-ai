@@ -225,6 +225,11 @@ def best_move(state, counter):
 
     return chosen_move  # return the best move
 
+    # TASK 5 ANSWERS
+    # Minimax visits 31 nodes from the supplied starting board.
+    # Every recursive call counts, including terminal states.
+    # We count visited game-tree nodes, not unique board positions.
+    # Larger games have many more possible moves to explore.
 
 # --------------------------------------------------
 # TASK 6 — ALPHA-BETA PRUNING
@@ -252,7 +257,52 @@ def best_move_alpha_beta(state, counter):
     # TODO: Like best_move(), but call alpha_beta().
     # Start alpha at -infinity and beta at +infinity.
     # Update alpha after each candidate X move.
-    pass
+    counter["nodes"] += 1  # count this visited node
+
+    if is_terminal(state):  # check if game finished
+        return utility(state)  # return final score
+
+    if maximizing:  # X wants the highest score
+
+        best = -float("inf")  # lowest starting value
+
+        for move in available_moves(state):  # check possible moves
+
+            next_state = make_move(state, move, "X")  # X moves
+
+            score = alpha_beta(
+                next_state, False, alpha, beta, counter
+            )  # O plays next
+
+            best = max(best, score)  # keep highest score
+
+            alpha = max(alpha, best)  # update MAX's best score
+
+            if alpha >= beta:  # remaining moves cannot help
+                break  # stop searching this branch
+
+        return best
+
+    else:  # O wants the lowest score
+
+        best = float("inf")  # highest starting value
+
+        for move in available_moves(state):  # check possible moves
+
+            next_state = make_move(state, move, "O")  # O moves
+
+            score = alpha_beta(
+                next_state, True, alpha, beta, counter
+            )  # X plays next
+
+            best = min(best, score)  # keep lowest score
+
+            beta = min(beta, best)  # update MIN's best score
+
+            if alpha >= beta:  # remaining moves cannot help
+                break  # stop searching this branch
+
+        return best
 
 
 # --------------------------------------------------
@@ -288,3 +338,33 @@ if __name__ == "__main__":
     print("2. Why does Minimax assume an optimal opponent?")
     print("3. What is the purpose of a utility function?")
     print("4. What happens as games become larger?")
+
+"""
+REFLECTION ANSWERS
+
+1. Why is Tic-Tac-Toe considered a search problem?
+
+Because the AI searches possible moves and future boards
+to find the best move.
+
+
+2. Why does Minimax assume an optimal opponent?
+
+Because it prepares for the opponent always choosing
+the best possible move for themselves.
+
+
+3. What is the purpose of a utility function?
+
+It measures the final outcome of a game.
+
+X wins = +1
+O wins = -1
+Draw = 0
+
+
+4. What happens as games become larger?
+
+The number of possible moves and states increases.
+Searching becomes slower and more expensive.
+"""
