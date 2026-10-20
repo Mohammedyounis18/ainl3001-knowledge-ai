@@ -187,6 +187,17 @@ def backtracking_search(assignment):
 # Six regions with three possible colours each give 3 ** 6 = 729
 # complete assignments. Why can backtracking avoid checking all 729?
 
+"""
+TASK 4 ANSWERS
+
+1. Yes. Brute force includes complete assignments with matching neighbours.
+2. Backtracking rejects an invalid partial assignment immediately.
+3. It avoids exploring all the ways to finish an already-invalid colouring.
+4. No. Our search stops as soon as it finds its first valid solution.
+
+There are 3 ** 6 = 729 possible complete colour assignments.
+That does NOT mean 729 valid solutions or 729 backtracking attempts.
+"""
 
 # --------------------------------------------------
 # TESTING AREA
